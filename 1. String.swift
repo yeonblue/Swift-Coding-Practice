@@ -241,3 +241,27 @@ func runLengthEncodingUsingBruceForce(input: String) -> String {
 
     return returnValue
 }
+
+// 14. String Permutations (ex: abc -> abc, acb, bac, bca, cab, cba)
+func stringPermutation(input: String, current: String = "") {
+    let len = input.count
+    let strArr = Array(input)
+    
+    if(len == 0) {
+        print(current)
+    } else {
+        for i in 0..<len {
+            let left = String(strArr[0..<i])
+            let right = String(strArr[i+1..<len])
+            stringPermutation(input: left + right, current: current + String(strArr[i]))
+        }
+    }
+}
+
+// 15. String Word Reverse (ex: String Practice -> gnirtS ecitcarP)
+func stringWordReverse(input: String) -> String {
+    let parts = input.components(separatedBy: " ")
+    let reversed = parts.map{ String($0.reversed()) }
+    
+    return reversed.joined(separator: " ")
+}
