@@ -156,3 +156,93 @@ func refactorReturnBinaryNextHighAndLow(number: Int) -> (nextHighest: Int?, next
     
     return (nextHighest, nextLowest)
 }
+
+// 22. Binary Reverse (32:00100000 -> 4:00000100)
+func returnBinaryReverse(number: Int) -> Int {
+    let binary = String(number, radix: 2)
+    let paddingCnt = 8 - binary.count
+    let paddingBinary = String(repeating: "0", count: paddingCnt) + binary
+    let reversedBinary = String(paddingBinary.reversed())
+    
+    return Int(reversedBinary, radix: 2)!
+}
+
+// 23. String이 숫자인지 확인 (매우 큰 수 포함)
+func checkIntegerUsingUInt(input: String) -> Bool {
+    return UInt(input) != nil
+}
+
+func checkIntegerBruteForce(input: String) -> Bool {
+    for letter in input {
+        if Int(String(letter)) == nil {
+            return false
+        }
+    }
+    
+    return true
+}
+
+func checkIntegerUsingCharacterSet(input: String) -> Bool {
+    return input.rangeOfCharacter(from: CharacterSet(charactersIn: "0123456789").inverted) == nil
+}
+
+// 24. 문자 내 숫자 합 구하기 (ex: a10b2c30 -> 10 + 2 + 30 = 42)
+func addNumberInsideStringUsingBruteForce(input: String) -> Int {
+    var currentNumber = ""
+    var sum = 0
+    
+    for letter in input {
+        let strLetter = String(letter)
+        
+        if Int(strLetter) != nil {
+            currentNumber += strLetter
+        } else {
+            sum += Int(currentNumber) ?? 0
+            currentNumber = ""
+        }
+    }
+    
+    sum += Int(currentNumber) ?? 0
+    return sum
+}
+
+// 25. sqrt 없이 계산
+func returnSqrtUsingBruteForce(input: Int) -> Int {
+    for i in 1...input/2 {
+        if i * i > input {
+            return i-1
+        }
+    }
+    return 0
+}
+
+func returnSqrtUsingBinarySearch(input: Int) -> Int {
+    guard input != 1 else { return 1 }
+    
+    var lowerBound = 0
+    var upperBound = 1 + input / 2
+    
+    while lowerBound + 1 < upperBound {
+        let middle = lowerBound + ((upperBound - lowerBound) / 2)
+        let middleSquare = middle * middle
+        
+        if middleSquare == input {
+            return middle
+        } else if middleSquare < input {
+            lowerBound = middle
+        } else {
+            upperBound = middle
+        }
+    }
+    
+    return lowerBound
+}
+
+func returnSqrtUsingPow(input: String) -> Int {
+    return Int(floor(pow(Double(input)!, 0.5)))
+}
+
+// 26. Subtract without subtract
+func subtractUsing(input1: Int, input2: Int) -> Int {
+    return input1 + ( ~input2 + 1 )
+}
