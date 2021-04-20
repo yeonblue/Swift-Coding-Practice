@@ -100,7 +100,7 @@ func countBinaryOnes(number: Int) -> Int {
 }
 
 // 21-1. 이진수 같은 개수의 1을 가진 nextHighest, Lowest 찾기 (ex: 12 = 1100 -> 17:10001, 10: 1010 )
-func returnBinaryNextHighAndLow(number: Int) -> (nextHighest: Int?, nextLowest: Int?) {
+func getBinaryNextHighAndLow(number: Int) -> (nextHighest: Int?, nextLowest: Int?) {
     let targetBinary = String(number, radix: 2)
     let numOfTargetOnes = targetBinary.filter({$0 == "1"}).count
     
@@ -158,7 +158,7 @@ func refactorReturnBinaryNextHighAndLow(number: Int) -> (nextHighest: Int?, next
 }
 
 // 22. Binary Reverse (32:00100000 -> 4:00000100)
-func returnBinaryReverse(number: Int) -> Int {
+func getBinaryReverse(number: Int) -> Int {
     let binary = String(number, radix: 2)
     let paddingCnt = 8 - binary.count
     let paddingBinary = String(repeating: "0", count: paddingCnt) + binary

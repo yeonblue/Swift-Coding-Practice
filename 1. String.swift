@@ -132,7 +132,7 @@ func checkPangrams(input: String) -> Bool {
 }
 
 // 10. 모음, 자음 수 반환
-func returnVowelsAndConsonantsUsingCharacterSet(input: String) -> (vowels: Int, consonants: Int) {
+func getVowelsAndConsonantsUsingCharacterSet(input: String) -> (vowels: Int, consonants: Int) {
     var vowelCount = 0
     var consonantCount = 0
     
@@ -151,7 +151,7 @@ func returnVowelsAndConsonantsUsingCharacterSet(input: String) -> (vowels: Int, 
     return (vowelCount, consonantCount)
 }
 
-func returnVowelsAndConsonantsUsingContain(input: String) -> (vowels: Int, consonants: Int) {
+func getVowelsAndConsonantsUsingContain(input: String) -> (vowels: Int, consonants: Int) {
     var vowelCount = 0
     var consonantCount = 0
     
@@ -192,7 +192,7 @@ func checkFourMoreLettersDifferent(first: String, second: String) -> Bool {
 }
 
 // 12. 가장 긴 prefix 찾기 (ex: swift, swi, sw, swift! -> return sw)
-func returnBestPrefix(input: String) -> String{
+func getBestPrefix(input: String) -> String{
     let parts = input.components(separatedBy: " ")
     
     guard let first = parts.first else { return "" }
