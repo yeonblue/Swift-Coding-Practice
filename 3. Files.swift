@@ -17,7 +17,7 @@ func printLastLine(fileName: String, lineCnt: Int) {
 func addLogMessage(message: String, logFile: String) {
     var existLog = try? String(contentsOfFile: logFile)
     existLog?.append("\(Date()): \(message)\n")
-    
+   
     do {
         try existLog?.write(toFile: logFile, atomically: true, encoding: .utf8)
     } catch {
@@ -32,7 +32,7 @@ func getDocumentsDirectoryURL() -> URL {
 }
 
 // 30. 디렉토리에서 24시간 이내 작성된 JPEG 파일들 반환
-func getJPEGsWithIn48Hour(directory: String) -> [String] {
+func getJPEGsWithIn24Hour(directory: String) -> [String] {
     let fileManager = FileManager.default
     let directoryURL = URL(fileURLWithPath: directory)
     
@@ -52,4 +52,61 @@ func getJPEGsWithIn48Hour(directory: String) -> [String] {
     }
     
     return returnJPEG
+}
+
+
+// 32. Word Frequency
+// Hello World에서 Hello가 1번 있으면 1 리턴, It's raining에서 in은 미포함
+// print( countWordFrequncyInFile(filename: "/User/Desktop/file1.txt", str: "Hello") )
+
+func countWordFrequncyInFile(filename: String, countStr: String) -> Int {
+    guard let inputString = try? String(contentsOfFile: filename) else { return 0 }
+    var nonLetters = CharacterSet.letters.inverted
+    nonLetters.remove("'")
+    
+    let allWords = inputString.components(separatedBy: nonLetters)
+    let wordSet = NSCountedSet(array: allWords)
+    
+    return wordSet.count(for: countStr)
+}
+
+// 33. 중복 파일 이름 찾기
+func findDuplicateFilename(in directory: String) -> [String] {
+    let fileManager = FileManager.default
+    let directoryURL = URL(fileURLWithPath: directory)
+    
+    guard let files = fileManager.enumerator(at: directoryURL, includingPropertiesForKeys: nil) else { return [] }
+    var filenameSet = Set<String>()
+    var seen = Set<String>()
+    
+    for case let file as URL in files {
+        guard file.hasDirectoryPath == false else { continue }
+        let filename = file.lastPathComponent
+        
+        if seen.contains(filename) {
+            filenameSet.insert(filename)
+        }
+        
+        seen.insert(filename)
+    }
+    
+    return Array(filenameSet)
+}
+
+// 34. 실행 가능한 파일 찾기
+func findExecutables(in directory: String) -> [String] {
+    let fileManager = FileManager.default
+    let directoryURL = URL(fileURLWithPath: directory)
+    
+    guard let files = try? fileManager.contentsOfDirectory(at: directoryURL, includingPropertiesForKeys: nil) else { return [] }
+    var returnVal = [String]()
+    
+    for file in files {
+        guard file.hasDirectoryPath == false else { continue }
+        if fileManager.isExecutableFile(atPath: file.path) {
+            returnVal.append(file.lastPathComponent)
+        }
+    }
+    
+    return returnVal
 }
